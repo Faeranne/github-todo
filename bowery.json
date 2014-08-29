@@ -1,0 +1,11 @@
+{
+  "github-todo": {
+    "image": "node",
+    "path": ".:/application",
+    "ports": [
+      3420
+    ],
+    "start": "node app.js",
+    "build": "npm install"
+  }
+}
