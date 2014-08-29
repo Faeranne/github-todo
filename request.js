@@ -39,7 +39,7 @@ var parseCommits = function(url,commits,cb){
 			lines.forEach(function(line,index){
 				if(line.indexOf('TODO:')>=0){
 					todo = line.split('TODO:')[1].trim()
-					comtodos.push(todo);
+					todos.push(todo);
 				}
 			})
 			comind--
