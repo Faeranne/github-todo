@@ -20,7 +20,11 @@ app.post('/hook', function(req,res){
 	});
 	var issueUrl = req.body.repository.issues_url.replace('{/number}','');
 	var commitUrl = req.body.repository.contents_url.replace('{+path}','');
-	requests.parseTODOS(issueUrl,console.log);
+	requests.parseTODOS(issueUrl,function(issueTodos){
+		requests.parseCommits(commitUrl,newChanges,function(commitTodos){
+			console.log(commitTodos);
+		})
+	});
 });
 
 
