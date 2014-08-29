@@ -50,9 +50,9 @@ var parseCommits = function(url,commits,cb){
 
 var compareTodo = function(issues,commits){
 	var newTODO = [];
-	issues.forEach(function(issue,index){
+	commits.forEach(function(issue,index){
 		var found = false;
-		commits.forEach(function(commit, index){
+		issues.forEach(function(commit, index){
 			if(commit == issue){
 				found = true;
 			}
