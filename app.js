@@ -1,5 +1,5 @@
 var githubhook = require('githubhook');
-var github = githubhook();
+var github = githubhook({port:process.env.PORT});
 
 
 github.listen();
