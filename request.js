@@ -59,3 +59,5 @@ var compairTodo = function(issues,commits){
 	return(newTODO);
 }
 
+exports.parseTODOS = parseTODOS
+exports.parseCommits = parseCommits

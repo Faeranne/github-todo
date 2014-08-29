@@ -1,6 +1,7 @@
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser')
+var requests = require('./request.js');
 
 app.use(bodyParser())
 
@@ -19,9 +20,7 @@ app.post('/hook', function(req,res){
 	});
 	var issueUrl = req.body.repository.issues_url.replace('{/number}','');
 	var commitUrl = req.body.repository.contents_url.replace('{+path}','');
-	console.log(issueUrl);
-	console.log(commitUrl);
-	console.log(newChanges);
+	requests.parseTODOS(issueUrl,console.log);
 });
 
 
