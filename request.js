@@ -64,6 +64,18 @@ var compareTodo = function(issues,commits){
 	return newTODO;
 }
 
+var token = "token "+process.env.OATH_TOKEN;
+var createIssues = function(url,issues){
+	issues.forEach(function(issue,index){
+		var body = {title:issue,labels:['TODO']}
+		request({url:url, method: 'POST', headers:{"User-Agent":"github-todo", "Authorization": token}, body:JSON.stringify(body)}, function(err,res,body){
+			console.log(JSON.parse(body));
+		});
+	})
+};
+
 exports.parseTODOS = parseTODOS
 exports.parseCommits = parseCommits
 exports.compareTodo = compareTodo
+exports.createIssues = createIssues
+
