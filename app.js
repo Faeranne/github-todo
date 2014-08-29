@@ -7,6 +7,7 @@ app.use(bodyParser())
 
 app.post('/hook', function(req,res){
 	var commits = req.body.commits
+	// TODO: Only acknowledge pushes to the "Master" branch.
 	res.send(200,'{"message":"ok","result":"ok"}');
 	newChanges = []
 	commits.forEach(function(commit, index, commits){
