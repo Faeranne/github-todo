@@ -7,15 +7,21 @@ app.use(bodyParser())
 app.post('/hook', function(req,res){
 	var commits = req.body.commits
 	res.send(200,'{"message":"ok","result":"ok"}');
+	newChanges = []
 	commits.forEach(function(commit, index, commits){
 		console.log(commit.id)
-		console.log(commit.added);
-		var issueUrl = req.body.repository.issues_url.replace('{/number}','');
-		var commitUrl = req.body.repository.contents_url.replace('{+path}','');
-		console.log(issueUrl);
-		console.log(commitUrl);
+		commit.added.forEach(function(add,id){
+			newChanges.push(add);
+		})
+		commit.modified.forEach(function(add,id){
+			newChanges.push(add);
+		});
 	});
-	
+	var issueUrl = req.body.repository.issues_url.replace('{/number}','');
+	var commitUrl = req.body.repository.contents_url.replace('{+path}','');
+	console.log(issueUrl);
+	console.log(commitUrl);
+	console.log(newChanges);
 });
 
 

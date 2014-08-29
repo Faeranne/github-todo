@@ -25,7 +25,7 @@ var parseCommits = function(url,commits,cb){
 	})
 	commits.forEach(function(commit,index){
 		comind++
-		var thisUrl = url.replace(
+		var thisUrl = url+commit
 		request({url:url, headers: {'User-Agent': 'github-todo'}}, function(err,res,body){
 			var body = JSON.parse(body)
 			contents = new Buffer(body.content, 'base64');
