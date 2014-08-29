@@ -61,7 +61,7 @@ var compareTodo = function(issues,commits){
 			newTODO.push(issue);
 		}
 	});
-	return(newTODO);
+	return newTODO;
 }
 
 exports.parseTODOS = parseTODOS
