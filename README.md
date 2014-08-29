@@ -6,10 +6,6 @@ set the hook url to http://github-todo-issue.herokuapp.com/hook
 
 click Add Webhook
 
-Goto Issues -> Labels -> New Label
-
-Make label name "TODO" (without quotes).  -> Create Label
-
 Push code.
 
 Github-Todo will create issues titled whatever comes after TODO:
