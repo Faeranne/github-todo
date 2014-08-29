@@ -22,7 +22,7 @@ var parseCommits = function(url,commits,cb){
 		if(comind == 0){
 			cb(todos);
 		}
-	})
+	}
 	commits.forEach(function(commit,index){
 		comind++
 		var thisUrl = url+commit
