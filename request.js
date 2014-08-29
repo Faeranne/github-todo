@@ -28,7 +28,11 @@ var parseCommits = function(url,commits,cb){
 		var thisUrl = url+commit
 		request({url:url, headers: {'User-Agent': 'github-todo'}}, function(err,res,body){
 			var body = JSON.parse(body)
-			console.log(body.content);
+			console.log(body);
+			if(body.type!="file"){
+				comind--
+				commitDone()
+			}
 			contents = new Buffer(body.content, 'base64');
 			contents = contents.toString();
 			lines = contents.split('\n')
