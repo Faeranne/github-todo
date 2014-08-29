@@ -10,6 +10,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "githubhook": "^1.1.2"
+    "body-parser": "^1.6.6",
+    "connect": "^3.1.1",
+    "express": "^4.8.6",
+    "githubhook": "^1.1.2",
+    "json": "^9.0.1"
   }
 }

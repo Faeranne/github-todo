@@ -1,10 +1,12 @@
-var githubhook = require('githubhook');
-var github = githubhook({port:process.env.PORT,logger:console});
+var express = require('express');
+var app = express();
+var bodyParser = require('body-parser')
 
+app.use(bodyParser())
 
-github.listen();
-
-github.on('*', function (repo, ref, data) {
-	console.log(ref);
-	console.log(data);
+app.get('/hook', function(req,ref){
+	console.log(req);
+	res.send(200,'{"message":"ok","result":"ok"}');
 });
+
+app.listen(process.env.PORT);
