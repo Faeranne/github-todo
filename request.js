@@ -1,7 +1,7 @@
 var request = require('request');
 
 var parseTODOS = function(url,cb){
-	request({url:url, headers: {'User-Agent': 'github-todo'}}, function(err,res,body){
+	request({url:url, headers: {'User-Agent': 'github-todo'},body:JSON.parse({state:"all"})}, function(err,res,body){
 		var issues = JSON.parse(body);
 		todos = []
 		issues.forEach(function(issue,index){
