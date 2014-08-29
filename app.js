@@ -5,7 +5,7 @@ var bodyParser = require('body-parser')
 app.use(bodyParser())
 
 app.post('/hook', function(req,res){
-	console.log(req);
+	console.log(req.body);
 	res.send(200,'{"message":"ok","result":"ok"}');
 });
 
