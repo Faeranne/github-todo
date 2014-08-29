@@ -6,9 +6,7 @@ var parseTODOS = function(url,cb){
 		todos = []
 		issues.forEach(function(issue,index){
 			issue.labels.forEach(function(label,index){
-				if(label.name=="TODO"){
-					todos.push(issue.title);
-				}
+				todos.push(issue.title);
 			})
 		})
 		cb(todos);
