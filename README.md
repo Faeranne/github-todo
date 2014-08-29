@@ -12,7 +12,9 @@ Github-Todo will create issues titled whatever comes after TODO:
 
 ?
 
-Proffet!
+Profit!
+
+Note: Don't change the title of the generated issues.  Github-todo will use them to keep from duplicating issues.  See issue #2
 
 # Disclamer
 
