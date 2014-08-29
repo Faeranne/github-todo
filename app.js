@@ -10,16 +10,13 @@ app.post('/hook', function(req,res){
 	commits.forEach(function(commit, index, commits){
 		console.log(commit.id)
 		console.log(commit.added);
-		commit.added.forEach(function(file, index, added){
-			parseTODOS(req.body.repository.contents_url,file)
-		})
+		var issueUrl = req.body.repository.issues_url.replace('{/number}','');
+		var commitUrl = req.body.repository.contents_url.replace('{+path}','');
+		console.log(issueUrl);
+		console.log(commitUrl);
 	});
 	
 });
 
-var parseTODOS = function(contentsUrl,file){
-	console.log(contentsUrl);
-	console.log(file);
-}
 
 app.listen(process.env.PORT);
