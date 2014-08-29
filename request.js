@@ -26,7 +26,7 @@ var parseCommits = function(url,commits,cb){
 	commits.forEach(function(commit,index){
 		comind++
 		var thisUrl = url+commit
-		request({url:url, headers: {'User-Agent': 'github-todo'}}, function(err,res,body){
+		request({url:thisUrl, headers: {'User-Agent': 'github-todo'}}, function(err,res,body){
 			var body = JSON.parse(body)
 			console.log(body);
 			if(body.type!="file"){
