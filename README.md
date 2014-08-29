@@ -16,7 +16,7 @@ Github-Todo will create issues titled whatever comes after TODO:
 
 ?
 
-Proffet!
+Profit!
 
 # Disclamer
 
