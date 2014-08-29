@@ -41,7 +41,7 @@ var parseCommits = function(url,commits,cb){
 			commitDone()
 		});
 	})
-});
+};
 
 var compairTodo = function(issues,commits){
 	var newTODO = [];
