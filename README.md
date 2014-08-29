@@ -8,7 +8,7 @@ click Add Webhook
 
 Goto Issues -> Labels -> New Label
 
-Make label name "TODO" (without quotes).  -> Create Label
+Make label name "TODO" (Case Sensitive).  -> Create Label
 
 Push code.
 
