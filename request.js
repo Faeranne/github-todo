@@ -48,7 +48,7 @@ var parseCommits = function(url,commits,cb){
 	})
 };
 
-var compairTodo = function(issues,commits){
+var compareTodo = function(issues,commits){
 	var newTODO = [];
 	issues.forEach(function(issue,index){
 		var found = false;
@@ -66,3 +66,4 @@ var compairTodo = function(issues,commits){
 
 exports.parseTODOS = parseTODOS
 exports.parseCommits = parseCommits
+exports.compareTodo = compareTodo

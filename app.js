@@ -22,7 +22,7 @@ app.post('/hook', function(req,res){
 	var commitUrl = req.body.repository.contents_url.replace('{+path}','');
 	requests.parseTODOS(issueUrl,function(issueTodos){
 		requests.parseCommits(commitUrl,newChanges,function(commitTodos){
-			console.log(commitTodos);
+			console.log(issueTodos,commitTodos)
 		})
 	});
 });
