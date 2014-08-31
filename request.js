@@ -38,6 +38,7 @@ var parseCommits = function(url,commits,cb){
 		comind++
 		var thisUrl = url+commit
 		request({url:thisUrl, headers: {'User-Agent': 'github-todo'}}, function(err,res,body){
+			// TODO: watch err and parse as needed. 
 			var body = JSON.parse(body)
 			if(body.type!="file"){
 				comind--
