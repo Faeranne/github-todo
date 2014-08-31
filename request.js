@@ -11,13 +11,11 @@ var token = "token "+process.env.OATH_TOKEN;
 
 var parseTODOS = function(url,cb){
 	request({url:url, headers: {'User-Agent': 'github-todo'},body:JSON.parse({state:"all"})}, function(err,res,body){
+		console.log(body)
 		var issues = JSON.parse(body);
 		todos = []
 		issues.forEach(function(issue,index){
-      // TODO: Don't need to loop over issue labels anymore
-			issue.labels.forEach(function(label,index){
-				todos.push(issue.title);
-			})
+			todos.push(issue.title);
 		})
 		cb(todos);
 	})
