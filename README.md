@@ -1,21 +1,31 @@
-# INSTALL
+# GitHub-Todo
 
-on your repository, goto settings -> Webhooks & Services -> Add Webhook
+GitHub-Todo creates GitHub issues for every "TODO:" that you commit to your
+GitHub repostiory.
 
-set the hook url to http://github-todo-issue.herokuapp.com/hook
+## How to add it to your project
 
-click Add Webhook
+1. Go to Settings, Webhooks & Services, Add Webhook
+2. Payload URL: `http://github-todo-issue.herokuapp.com/hook`
+3. Default options are fine
+4. Add webhook
 
-Push code.
+## How it works
 
-Github-Todo will create issues titled whatever comes after TODO:
+When you push code to your repository, Github-Todo scans the files in the new
+commits.
 
-?
+For every `TODO:` line in a file, it creates a new GitHub issue with a title
+matching the text following "`TODO:`"
 
-Profit!
-
-Note: Don't change the title of the generated issues.  Github-todo will use them to keep from duplicating issues.  See issue #2
+Note: Don't change the title of the created issues. GitHub-Todo uses them to
+keep from duplicating issues.
 
 # Disclamer
 
-This code is in no way affiliated with Github.  Please file issues in this repo.  Don't complain to Github if this breaks your entire repo.  You use this webhook at your own risk.  I can't be held responsible if this deletes all your repos (but tell me if it does.  That's no good!)
+This code is in no way affiliated with Github. Please file issues in this repo.
+Don't complain to Github if this breaks.
+
+# Our own TODOs
+
+* [ ] TODO: Pass jshint
