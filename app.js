@@ -19,7 +19,6 @@ app.post('/hook', function(req,res){
 			newChanges.push(add);
 		});
 	});
-	console.log(req.body.repository.issues_url)
 	var issueUrl = req.body.repository.issues_url.replace('{/number}','');
   // TODO: pass contents_url to parseCommits to create commitUrl
   // TODO: Track down bug preventing pull requests from being lost to some unknown error
@@ -27,7 +26,6 @@ app.post('/hook', function(req,res){
 	requests.parseTODOS(issueUrl,function(issueTodos){
 		requests.parseCommits(commitUrl,newChanges,function(commitTodos){
 			var newIssues = requests.compareTodo(issueTodos,commitTodos)
-			console.log(newIssues)
 			requests.createIssues(issueUrl,newIssues);
 		})
 	});

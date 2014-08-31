@@ -10,7 +10,6 @@ var token = "token "+process.env.OATH_TOKEN;
  */
 
 var parseTODOS = function(url,cb){
-	console.log(url);
 	request({url:url, headers: {'User-Agent': 'github-todo'},body:JSON.parse({state:"all"})}, function(err,res,body){
 		console.log(body)
 		var issues = JSON.parse(body);
@@ -40,7 +39,6 @@ var parseCommits = function(url,commits,cb){
 		var thisUrl = url+commit
 		request({url:thisUrl, headers: {'User-Agent': 'github-todo'}}, function(err,res,body){
 			var body = JSON.parse(body)
-			console.log(body);
 			if(body.type!="file"){
 				comind--
 				commitDone()
@@ -95,7 +93,6 @@ var createIssues = function(url,issues){
     // TODO: Include a link to file & line number in issue body
 		var body = {title:issue}
 		request({url:url, method: 'POST', headers:{"User-Agent":"github-todo", "Authorization": token}, body:JSON.stringify(body)}, function(err,res,body){
-			console.log(JSON.parse(body));
 		});
 	})
 };
