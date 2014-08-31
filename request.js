@@ -10,7 +10,8 @@ var token = "token "+process.env.OATH_TOKEN;
  */
 
 var parseTODOS = function(url,cb){
-	request({url:url, headers: {'User-Agent': 'github-todo'},body:JSON.stringify({state:"all"})}, function(err,res,body){
+	// TODO: state should be referenced in the incoming url
+	request({url:url+"?state=all", headers: {'User-Agent': 'github-todo'}, function(err,res,body){
 		var issues = JSON.parse(body);
 		todos = []
 		issues.forEach(function(issue,index){
