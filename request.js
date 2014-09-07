@@ -51,7 +51,7 @@ var parseCommits = function(url,commits,cb){
 				if(line.indexOf('TODO:')>=0){
 					todo = {};
 					todo.title = line.split('TODO:')[1].trim()
-					todo.line = index;
+					todo.line = index+1;
 					todo.file=commit
 					todos.push(todo);
 				}
