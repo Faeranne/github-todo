@@ -25,6 +25,7 @@ app.post('/hook', function(req,res){
 	requests.parseTODOS(issueUrl,function(issueTodos){
 		requests.parseCommits(commitUrl,newChanges,function(commitTodos){
 			var newIssues = requests.compareTodo(issueTodos,commitTodos)
+			console.log(newIssues)
 			requests.createIssues(issueUrl,newIssues);
 		})
 	});
