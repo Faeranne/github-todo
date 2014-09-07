@@ -15,7 +15,7 @@ var parseTODOS = function(url,cb){
 		var issues = JSON.parse(body);
 		todos = []
 		issues.forEach(function(issue,index){
-			todos.push(issue.title);
+			todos.push(issue);
 		})
 		cb(todos);
 	})
@@ -49,7 +49,10 @@ var parseCommits = function(url,commits,cb){
 			lines = contents.split('\n')
 			lines.forEach(function(line,index){
 				if(line.indexOf('TODO:')>=0){
-					todo = line.split('TODO:')[1].trim()
+					todo = {};
+					todo.title = line.split('TODO:')[1].trim()
+					todo.line = index;
+					todo.file=commit
 					todos.push(todo);
 				}
 			})
@@ -71,7 +74,7 @@ var compareTodo = function(issues,commits){
 	commits.forEach(function(issue,index){
 		var found = false;
 		issues.forEach(function(commit, index){
-			if(commit == issue){
+			if(commit.title == issue.title){
 				found = true;
 			}
 		})
@@ -91,8 +94,7 @@ var compareTodo = function(issues,commits){
 
 var createIssues = function(url,issues){
 	issues.forEach(function(issue,index){
-    // TODO: Include a link to file & line number in issue body
-		var body = {title:issue}
+		var body = {title:issue.title,body:"File: "+issue.file+"\nLine:"+issue.line}
 		request({url:url, method: 'POST', headers:{"User-Agent":"github-todo", "Authorization": token}, body:JSON.stringify(body)}, function(err,res,body){
 		});
 	})
