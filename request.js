@@ -96,7 +96,6 @@ var createIssues = function(url,issues){
 	issues.forEach(function(issue,index){
 		var body = {title:issue.title,body:"File: "+issue.file+"\nLine:"+issue.line}
 		request({url:url, method: 'POST', headers:{"User-Agent":"github-todo", "Authorization": token}, body:JSON.stringify(body)}, function(err,res,body){
-			console.log(res)
 		});
 	})
 };
