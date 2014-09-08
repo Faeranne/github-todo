@@ -13,10 +13,14 @@ app.post('/hook', function(req,res){
 	commits.forEach(function(commit, index, commits){
 		console.log(commit.id)
 		commit.added.forEach(function(add,id){
-			newChanges.push(add);
+			if(!(newChanges.indexOf(add)>=0)){
+				newChanges.push(add);
+			}
 		})
 		commit.modified.forEach(function(add,id){
-			newChanges.push(add);
+			if(!(newChanges.indexOf(add)>=0)){
+				newChanges.push(add);
+			}
 		});
 	});
 	var issueUrl = req.body.repository.issues_url.replace('{/number}','');
