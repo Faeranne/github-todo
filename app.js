@@ -11,7 +11,6 @@ app.post('/hook', function(req,res){
 	res.send(200,'{"message":"ok","result":"ok"}');
 	newChanges = []
 	commits.forEach(function(commit, index, commits){
-		console.log(commit.id)
 		commit.added.forEach(function(add,id){
 			if(!(newChanges.indexOf(add)>=0)){
 				newChanges.push(add);
@@ -24,11 +23,11 @@ app.post('/hook', function(req,res){
 		});
 	});
 	var issueUrl = req.body.repository.issues_url.replace('{/number}','');
+  // TODO: pass contents_url to parseCommits to create commitUrl
 	var commitUrl = req.body.repository.contents_url.replace('{+path}','');
 	requests.parseTODOS(issueUrl,function(issueTodos){
 		requests.parseCommits(commitUrl,newChanges,function(commitTodos){
 			var newIssues = requests.compareTodo(issueTodos,commitTodos)
-			console.log(newIssues)
 			requests.createIssues(issueUrl,newIssues);
 		})
 	});
