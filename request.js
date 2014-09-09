@@ -25,28 +25,19 @@ var parseTODOS = function(url,cb){
  * Fetch and parse TODOs out of commits' files
  */ 
 var parseCommits = function(url,commits,cb){
-	var comind = 0;
 	todos = [];
-  // TODO: replace commitDone counter with better loop logic
-	var commitDone = function(){
-		if(comind == 0){
-			cb(todos);
-		}
-	}
-	commits.forEach(function(commit,index){
-		comind++
+	commits.forEach(function(commit,commitIndex){
 		var thisUrl = url+commit
 		request({url:thisUrl, headers: {'User-Agent': 'github-todo'}}, function(err,res,body){
 			// TODO: watch err and parse as needed. 
 			var body = JSON.parse(body)
 			if(body.type!="file"){
-				comind--
-				commitDone()
+        return;
 			}
 			contents = new Buffer(body.content, 'base64');
 			contents = contents.toString();
 			lines = contents.split('\n')
-			lines.forEach(function(line,index){
+			lines.forEach(function(line,lineIndex){
 				if(line.indexOf('TODO:')>=0){
 					todo = {};
 					todo.title = line.split('TODO:')[1].trim()
@@ -55,9 +46,8 @@ var parseCommits = function(url,commits,cb){
 					todos.push(todo);
 				}
 			})
-			comind--
-			commitDone()
 		});
+    cb(todos);
 	})
 };
 

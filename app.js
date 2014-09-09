@@ -3,6 +3,7 @@ var app = express();
 var bodyParser = require('body-parser')
 var requests = require('./request.js');
 
+// TODO: deprecated bodyParser: use individual json/urlencoded middlewares
 app.use(bodyParser())
 
 app.post('/hook', function(req,res){
