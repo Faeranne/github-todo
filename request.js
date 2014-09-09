@@ -89,12 +89,13 @@ var compareTodo = function(issues,commits){
  * Create GitHub issues for every object in an array of issues
  *
  * @param {String} url
+ * @param {String} blob_url
  * @param {Array} issues
  */
 
-var createIssues = function(url,issues){
+var createIssues = function(url,blob_url,issues){
 	issues.forEach(function(issue,index){
-		var body = {title:issue.title,body:"File: "+issue.file+"\nLine:"+issue.line}
+		var body = {title:issue.title,body:"File: "+blob_url+"/"issue.file+"#L"+issue.line}
 		request({url:url, method: 'POST', headers:{"User-Agent":"github-todo", "Authorization": token}, body:JSON.stringify(body)}, function(err,res,body){
 		});
 	})

@@ -27,8 +27,11 @@ app.post('/hook', function(req,res){
 	var commitUrl = req.body.repository.contents_url.replace('{+path}','');
 	requests.parseTODOS(issueUrl,function(issueTodos){
 		requests.parseCommits(commitUrl,newChanges,function(commitTodos){
+			var url = req.body.repository.url
+			var commitHash = req.body.head_commit.id
+			var blob_url = url+"/blob/"+commitHash
 			var newIssues = requests.compareTodo(issueTodos,commitTodos)
-			requests.createIssues(issueUrl,newIssues);
+			requests.createIssues(issueUrl,blob_url,newIssues);
 		})
 	});
 });
