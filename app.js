@@ -8,6 +8,8 @@ app.use(bodyParser())
 app.post('/hook', function(req,res){
 	var commits = req.body.commits
 	// TODO: Only acknowledge pushes to the "Master" branch.
+	// TODO: Move to a GitHub Function
+	// TODO: Create Bitbucket Function
 	res.send(200,'{"message":"ok","result":"ok"}');
 	newChanges = []
 	commits.forEach(function(commit, index, commits){
@@ -19,7 +21,6 @@ app.post('/hook', function(req,res){
 		});
 	});
 	var issueUrl = req.body.repository.issues_url.replace('{/number}','');
-  // TODO: pass contents_url to parseCommits to create commitUrl
 	var commitUrl = req.body.repository.contents_url.replace('{+path}','');
 	requests.parseTODOS(issueUrl,function(issueTodos){
 		requests.parseCommits(commitUrl,newChanges,function(commitTodos){

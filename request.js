@@ -37,6 +37,7 @@ var parseCommits = function(url,commits,cb){
 	commits.forEach(function(commit,index){
 		comind++
 		var thisUrl = url+commit
+		// TODO: break out to a seperate function to make more Bitbucket friendly
 		request({url:thisUrl, headers: {'User-Agent': 'github-todo'}}, function(err,res,body){
 			// TODO: watch err and parse as needed. 
 			var body = JSON.parse(body)
@@ -90,6 +91,8 @@ var compareTodo = function(issues,commits){
  *
  * @param {String} url
  * @param {Array} issues
+ *
+ * TODO: Make Bitbucket version
  */
 
 var createIssues = function(url,issues){
