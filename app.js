@@ -6,11 +6,15 @@ var requests = require('./request.js');
 app.use(bodyParser())
 
 app.post('/hook', function(req,res){
-	var commits = req.body.commits
-	// TODO: Only acknowledge pushes to the "Master" branch.
-	// TODO: Move to a GitHub Function
-	// TODO: Create Bitbucket Function
 	res.send(200,'{"message":"ok","result":"ok"}');
+	// TODO: Differentiate between github and bitbucket before processing payload.
+	github(req.body);
+});
+
+var github = function(payload){
+	// TODO: Only acknowledge pushes to the "Master" branch.
+	// TODO: Create Bitbucket Function
+	var commits = payload.commits
 	newChanges = []
 	commits.forEach(function(commit, index, commits){
 		commit.added.forEach(function(add,id){
@@ -24,8 +28,8 @@ app.post('/hook', function(req,res){
 			}
 		});
 	});
-	var issueUrl = req.body.repository.issues_url.replace('{/number}','');
-	var commitUrl = req.body.repository.contents_url.replace('{+path}','');
+	var issueUrl = payload.repository.issues_url.replace('{/number}','');
+	var commitUrl = payload.repository.contents_url.replace('{+path}','');
 	requests.parseTODOS(issueUrl,function(issueTodos){
 		requests.parseCommits(commitUrl,newChanges,function(commitTodos){
 			var url = req.body.repository.url
@@ -35,7 +39,8 @@ app.post('/hook', function(req,res){
 			requests.createIssues(issueUrl,blob_url,newIssues);
 		})
 	});
-});
 
+}
 
 app.listen(process.env.PORT);
+
