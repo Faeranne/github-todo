@@ -2,6 +2,41 @@ var request = require('request');
 
 var token = "token "+process.env.OATH_TOKEN;
 
+var hook = function(req,res){
+	res.send(200,'{"message":"ok","result":"ok"}');
+	// TODO: Differentiate between github and bitbucket before processing payload.
+	github(req.body);
+}
+
+var github = function(payload){
+	// TODO: Only acknowledge pushes to the "Master" branch.
+	// TODO: Create Bitbucket Function
+	var commits = payload.commits
+	newChanges = []
+	commits.forEach(function(commit, index, commits){
+		commit.added.forEach(function(add,id){
+			if(!(newChanges.indexOf(add)>=0)){
+				newChanges.push(add);
+			}
+		})
+		commit.modified.forEach(function(add,id){
+			if(!(newChanges.indexOf(add)>=0)){
+				newChanges.push(add);
+			}
+		});
+	});
+	var issueUrl = payload.repository.issues_url.replace('{/number}','');
+	var commitUrl = payload.repository.contents_url.replace('{+path}','');
+	parseTODOS(issueUrl,function(issueTodos){
+		parseCommits(commitUrl,newChanges,function(commitTodos){
+			var url = payload.repository.url
+			var commitHash = payload.head_commit.id
+			var blob_url = url+"/blob/"+commitHash
+			var newIssues = compareTodo(issueTodos,commitTodos) createIssues(issueUrl,blob_url,newIssues);
+		})
+	});
+
+}
 /**
  * Fetch and parse existing TODO issues from the repo
  *
@@ -50,9 +85,7 @@ var parseCommits = function(url,commits,cb){
 			lines.forEach(function(line,index){
 				if(line.indexOf('TODO:')>=0){
 					todo = {};
-					todo.title = line.split('TODO:')[1].trim()
-					todo.line = index+1;
-					todo.file=commit
+					todo.title = line.split('TODO:')[1].trim() todo.line = index+1; todo.file=commit
 					todos.push(todo);
 				}
 			})
@@ -103,9 +136,5 @@ var createIssues = function(url,blob_url,issues){
 	})
 };
 
-exports.parseTODOS = parseTODOS
-exports.parseCommits = parseCommits
-exports.compareTodo = compareTodo
-exports.createIssues = createIssues
-
+exports.hook = hook
 
