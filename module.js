@@ -2,13 +2,19 @@ var request = require('request');
 
 var token = "token "+process.env.OATH_TOKEN;
 
-var hook = function(req,res){
+var hook = function(req,res,key){
+	var localToken = ""
+	if(key){
+		localToken = "token "+key
+	}else{
+		localToken = token
+	}
 	res.send(200,'{"message":"ok","result":"ok"}');
 	// TODO: Differentiate between github and bitbucket before processing payload.
-	github(req.body);
+	github(req.body, localToken);
 }
 
-var github = function(payload){
+var github = function(payload, localToken){
 	// TODO: Only acknowledge pushes to the "Master" branch.
 	// TODO: Create Bitbucket Function
 	var commits = payload.commits
@@ -27,12 +33,13 @@ var github = function(payload){
 	});
 	var issueUrl = payload.repository.issues_url.replace('{/number}','');
 	var commitUrl = payload.repository.contents_url.replace('{+path}','');
-	parseTODOS(issueUrl,function(issueTodos){
-		parseCommits(commitUrl,newChanges,function(commitTodos){
+	parseTODOS(issueUrl,localToken,function(issueTodos){
+		parseCommits(commitUrl,newChanges,localToken,function(commitTodos){
 			var url = payload.repository.url
 			var commitHash = payload.head_commit.id
 			var blob_url = url+"/blob/"+commitHash
-			var newIssues = compareTodo(issueTodos,commitTodos) createIssues(issueUrl,blob_url,newIssues);
+			var newIssues = compareTodo(issueTodos,commitTodos,localToken) 
+			createIssues(issueUrl,blob_url,newIssues,localToken);
 		})
 	});
 
@@ -44,22 +51,21 @@ var github = function(payload){
  * @param {function} cb
  */
 
-var parseTODOS = function(url,cb){
+var parseTODOS = function(url,localToken,cb){
 	// TODO: state should be referenced in the incoming url
-	request({url:url+"?state=all", headers: {'User-Agent': 'github-todo'}}, function(err,res,body){
+	request({url:url+"?state=all", headers: {'User-Agent': 'github-todo', "Authorization": localToken}}, function(err,res,body){
 		var issues = JSON.parse(body);
 		todos = []
 		issues.forEach(function(issue,index){
 			todos.push(issue);
 		})
 		cb(todos);
-	})
-}
+	}) }
 
 /**
  * Fetch and parse TODOs out of commits' files
  */ 
-var parseCommits = function(url,commits,cb){
+var parseCommits = function(url,commits,localToken,cb){
 	var comind = 0;
 	todos = [];
   // TODO: replace commitDone counter with better loop logic
@@ -72,7 +78,7 @@ var parseCommits = function(url,commits,cb){
 		comind++
 		var thisUrl = url+commit
 		// TODO: break out to a seperate function to make more Bitbucket friendly
-		request({url:thisUrl, headers: {'User-Agent': 'github-todo'}}, function(err,res,body){
+		request({url:thisUrl, headers: {'User-Agent': 'github-todo', "Authorization": localToken}}, function(err,res,body){
 			// TODO: watch err and parse as needed. 
 			var body = JSON.parse(body)
 			if(body.type!="file"){
@@ -85,7 +91,8 @@ var parseCommits = function(url,commits,cb){
 			lines.forEach(function(line,index){
 				if(line.indexOf('TODO:')>=0){
 					todo = {};
-					todo.title = line.split('TODO:')[1].trim() todo.line = index+1; todo.file=commit
+					todo.title = line.split('TODO:')[1].trim()
+					todo.line = index+1; todo.file=commit
 					todos.push(todo);
 				}
 			})
@@ -102,7 +109,7 @@ var parseCommits = function(url,commits,cb){
  * @param {Array} commits
  */
 
-var compareTodo = function(issues,commits){
+var compareTodo = function(issues,commits,localToken){
 	var newTODO = [];
 	commits.forEach(function(issue,index){
 		var found = false;
@@ -128,10 +135,10 @@ var compareTodo = function(issues,commits){
  * TODO: Make Bitbucket version
  */
 
-var createIssues = function(url,blob_url,issues){
+var createIssues = function(url,blob_url,issues,localToken){
 	issues.forEach(function(issue,index){
 		var body = {title:issue.title,body:"File: "+blob_url+"/"+issue.file+"#L"+issue.line}
-		request({url:url, method: 'POST', headers:{"User-Agent":"github-todo", "Authorization": token}, body:JSON.stringify(body)}, function(err,res,body){
+		request({url:url, method: 'POST', headers:{"User-Agent":"github-todo", "Authorization": localToken}, body:JSON.stringify(body)}, function(err,res,body){
 		});
 	})
 };
