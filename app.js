@@ -1,11 +1,12 @@
 var express = require('express');
-var app = express();
 var bodyParser = require('body-parser')
 var module = require('./module.js');
 
-app.use(bodyParser())
+var app = express();
 
-app.post('/hook', module.hook)
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use('/hook', module);
 
-app.listen(process.env.PORT);
-
+app.listen(process.env.PORT || 3000);
+console.log('Issue Bot Started!');
